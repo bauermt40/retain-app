@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppComponent } from './app';
 import { MainComponent } from './app/containers';
-import { AppBarComponent, NoteCardComponent, NotesContainerComponent } from './app/ui';
+import { 
+    AppBarComponent, 
+    NoteCardComponent, 
+    NotesContainerComponent,
+    NoteCreatorComponent } from './app/ui';
 
 @NgModule({
     declarations: [
@@ -11,9 +16,10 @@ import { AppBarComponent, NoteCardComponent, NotesContainerComponent } from './a
         MainComponent,
         AppBarComponent,
         NoteCardComponent,
-        NotesContainerComponent
+        NotesContainerComponent,
+        NoteCreatorComponent
     ],
-    imports: [BrowserModule],
+    imports: [BrowserModule, FormsModule],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
