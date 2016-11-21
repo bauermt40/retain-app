@@ -17,7 +17,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
     }
     `],
     template: `
-        <div class="note-creator shadow-2">
+        <div class="note-creator shadow-2" [ngStyle]="{'background-color': newNote.color}">
       <form class="row" (submit)="onCreateNote()">
         <input
           type="text"
@@ -25,20 +25,27 @@ import { Component, Output, EventEmitter } from '@angular/core';
           name="newNoteTitle"S
           placeholder="Title"
           class="col-xs-10 tSitle"
+          *ngIf="fullForm"
         >
         <input
           type="text"
           [(ngModel)]="newNote.value"
+          (focus)="toggleForm(true)"
           name="newNoteValue"
           placeholder="Take a note..."
           class="col-xs-10"
         >
-        <div class="actions col-xs-12 row between-xs">
+        <div class="actions col-xs-12 row between-xs" *ngIf="fullForm">
+          <div class="col-xs-3">
+            <color-picker
+              [colors]="colors"
+              (selectedColor)="onColorSelected($event)"></color-picker>
+          </div>
           <button
             type="submit"
             class="btn-light"
            >
-            DoneS
+            Done
           </button>
         </div>
       </form>
@@ -48,26 +55,39 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class NoteCreatorComponent {
 
     @Output() createNote = new EventEmitter();
+    fullForm: boolean = false;
+    colors: string[] =  ['#b19cd9', '#ff9691', '#77dd77', '#aec6cf', '#f49ac2', 'white'];
 
     newNote = {
         title: '',
-        value: ''
+        value: '',
+        color: 'White'
     }
 
     onCreateNote() {
-        const { title, value } = this.newNote;
+        const { title, value, color } = this.newNote;
 
         if(title && value) {
-            this.createNote.next({title, value});
+            this.createNote.next({title, value, color});
         }
 
         this.reset();
+        this.toggleForm(false);
     }
 
     reset() {
         this.newNote = {
             title: '',
-            value: ''
+            value: '',
+            color: 'White'
         }
+    }
+
+    toggleForm(value) {
+      this.fullForm = value;
+    }
+
+    onColorSelected(color: string) {
+      this.newNote.color = color;
     }
 }
